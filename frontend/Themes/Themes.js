@@ -308,6 +308,31 @@ const MaterialDark: Theme = {
   base0L: '#ffffff',
 };
 
+const MyNewTheme: Theme = {
+  displayName: 'My New Theme',
+  base00: '#20272d',
+  base01: '#283139',
+  base02: '#323b42',
+  base03: '#40474c',
+  base04: '#8c9194',
+  base05: '#c9c7c7',
+  base06: '#dddddd',
+  base07: '#f9fdfd',
+  base08: '#ff2977',
+  base09: '#b987ff',
+  base0A: '#5cc5fa',
+  base0B: '#ffba12',
+  base0C: '#f9fdfd',
+  base0D: '#71f97d',
+  base0E: '#ff2977',
+  base0F: '#71f97d',
+  base0H: '#5cc5fa',
+  base0I: '#9ea3a6',
+  base0J: '#323b42',
+  base0K: '#1b6190',
+  base0L: '#1b6190',
+};
+
 const OceanDark: Theme = {
   displayName: 'Ocean Dark',
   base00: '#232730',
@@ -420,6 +445,7 @@ module.exports = {
   GruvboxLight,
   Materia,
   MaterialDark,
+  MyNewTheme,
   OceanDark,
   Phd,
   Tomorrow,
