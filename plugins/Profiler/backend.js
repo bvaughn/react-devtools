@@ -41,4 +41,39 @@ module.exports = (bridge: Bridge, agent: Agent, hook: Object) => {
 
   // Check once in case some roots have already been registered:
   checkIfProfilingIsSupported();
+
+  // Register profiler start/stop API.
+  // This is used by the "react-devtools-profiler" package.
+  hook.profile = () => {
+    // Update the store(s)
+    bridge.send('isRecording', true);
+    // Notify the ProfilerCollector (synchronously)
+    agent.emit('isRecording', true, emptyFunction);
+  };
+  hook.profileEnd = () => {
+    // Notify the ProfilerCollector (synchronously)
+    agent.emit('isRecording', false, emptyFunction);
+    // Update the store(s)
+    bridge.send('isRecording', false);
+  };
+  hook.profileEndAfterNextCommit = () => {
+    hook.profileEndAfterNCommits(1);
+  };
+  hook.profileEndAfterNCommits = (numCommits) => {
+    const handleRootCommitted = () => {
+      if (--numCommits <= 0) {
+        agent.removeListener('rootCommitted', handleRootCommitted);
+        hook.profileEnd();
+      }
+    };
+    agent.addListener('rootCommitted', handleRootCommitted);
+  };
+  hook.profileNCommits = (numCommits) => {
+    hook.profile();
+    hook.profileEndAfterNCommits(numCommits);
+  };
+  hook.profileOneCommit = () => {
+    hook.profile();
+    hook.profileEndAfterNextCommit();
+  };
 };

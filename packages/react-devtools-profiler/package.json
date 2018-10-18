@@ -1,0 +1,12 @@
+{
+  "name": "react-devtools-profiler",
+  "version": "0.1.0",
+  "description": "API for interacting with the DevTools Profiler plugin",
+  "repository": {
+    "url": "https://github.com/facebook/react-devtools.git",
+    "type": "git"
+  },
+  "files": [
+    "index.js"
+  ]
+}

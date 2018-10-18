@@ -39,6 +39,10 @@ class ProfilerPlugin {
         refresh();
       }
     });
+
+    bridge.on('isRecording', (isRecording: boolean) => {
+      this.profilerStore.setIsRecording(isRecording);
+    });
   }
 
   panes(): Array<(node: Object, id: string) => React$Element<any>> {

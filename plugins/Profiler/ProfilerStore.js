@@ -104,6 +104,10 @@ class ProfilerStore extends EventEmitter {
   }
 
   setIsRecording(isRecording: boolean): void {
+    if (this.isRecording === isRecording) {
+      // HACK Prevent agent->bridge from cycling when react-devtools-profiler is used.
+      return;
+    }
     this.isRecording = isRecording;
     this.emit('isRecording', isRecording);
     this._mainStore.setIsRecording(isRecording);

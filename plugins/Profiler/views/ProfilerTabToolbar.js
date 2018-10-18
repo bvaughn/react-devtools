@@ -171,6 +171,7 @@ const ProfilerTabToolbar = ({
               commitThreshold={commitThreshold}
               hideCommitsBelowThreshold={hideCommitsBelowThreshold}
               isInspectingSelectedFiber={isInspectingSelectedFiber}
+              numSnapshots={snapshots.length}
               selectedFiberID={selectedFiberID}
               selectedSnapshot={selectedSnapshot}
               selectSnapshot={selectSnapshot}

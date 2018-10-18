@@ -51,6 +51,7 @@ type Props = {|
   commitThreshold: number,
   hideCommitsBelowThreshold: boolean,
   isInspectingSelectedFiber: boolean,
+  numSnapshots: number,
   selectedFiberID: string | null,
   selectedSnapshot: Snapshot,
   selectSnapshot: SelectSnapshot,
@@ -63,6 +64,7 @@ export default ({
   commitThreshold,
   hideCommitsBelowThreshold,
   isInspectingSelectedFiber,
+  numSnapshots,
   selectedFiberID,
   selectedSnapshot,
   selectSnapshot,
@@ -85,6 +87,7 @@ export default ({
       commitThreshold={commitThreshold}
       hideCommitsBelowThreshold={hideCommitsBelowThreshold}
       isInspectingSelectedFiber={isInspectingSelectedFiber}
+      numSnapshots={numSnapshots}
       selectedFiberID={selectedFiberID}
       selectedSnapshot={selectedSnapshot}
       selectSnapshot={selectSnapshot}
@@ -145,6 +148,7 @@ class SnapshotSelectorWrapper extends PureComponent<Props, void> {
       commitThreshold,
       hideCommitsBelowThreshold,
       isInspectingSelectedFiber,
+      numSnapshots,
       selectedFiberID,
       selectedSnapshot,
       selectSnapshot,
@@ -152,8 +156,6 @@ class SnapshotSelectorWrapper extends PureComponent<Props, void> {
       snapshots,
       theme,
     } = this.props;
-
-    const numSnapshots = snapshots.length;
 
     return (
       <div
@@ -188,6 +190,7 @@ class SnapshotSelectorWrapper extends PureComponent<Props, void> {
           commitThreshold={commitThreshold}
           hideCommitsBelowThreshold={hideCommitsBelowThreshold}
           isInspectingSelectedFiber={isInspectingSelectedFiber}
+          numSnapshots={numSnapshots}
           selectedFiberID={selectedFiberID}
           selectedSnapshot={selectedSnapshot}
           selectSnapshot={selectSnapshot}
@@ -210,6 +213,7 @@ class SnapshotSelectorWrapper extends PureComponent<Props, void> {
 
 const AutoSizedSnapshotSelector = ({
   isInspectingSelectedFiber,
+  numSnapshots,
   selectedFiberID,
   selectedSnapshot,
   selectSnapshot,
@@ -230,6 +234,7 @@ const AutoSizedSnapshotSelector = ({
       {({ height, width }) => (
         <SnapshotSelector
           height={HEIGHT}
+          numSnapshots={numSnapshots}
           selectedFiberID={selectedFiberID}
           selectedSnapshot={selectedSnapshot}
           selectSnapshot={selectSnapshot}
@@ -248,6 +253,7 @@ const RIGHT_ARROW = 39;
 
 type SnapshotSelectorProps = {|
   height: number,
+  numSnapshots: number,
   selectedFiberID: string | null,
   selectedSnapshot: Snapshot,
   selectSnapshot: SelectSnapshot,
@@ -291,6 +297,7 @@ class SnapshotSelector extends PureComponent<SnapshotSelectorProps, SnapshotSele
   render() {
     const {
       height,
+      numSnapshots,
       selectedSnapshot,
       selectSnapshot,
       snapshots,
@@ -299,7 +306,7 @@ class SnapshotSelector extends PureComponent<SnapshotSelectorProps, SnapshotSele
     } = this.props;
     const {isMouseDown} = this.state;
 
-    const listData = getListData(snapshots, width);
+    const listData = getListData(numSnapshots, snapshots, width);
 
     // Pass required contextual data down to the ListItem renderer.
     // (This method is memoized so it's safe to call on every render.)
@@ -311,8 +318,6 @@ class SnapshotSelector extends PureComponent<SnapshotSelectorProps, SnapshotSele
       snapshots,
       theme,
     );
-
-    const numSnapshots = snapshots.length;
 
     return (
       <div
@@ -395,10 +400,11 @@ class ListItem extends PureComponent<any, void> {
 }
 
 const getListData = memoize((
+  numSnapshots: number,
   snapshots: Array<Snapshot>,
   width: number,
 ): ListData => ({
-  itemSize: Math.max(minBarWidth, width / snapshots.length),
+  itemSize: Math.max(minBarWidth, width / numSnapshots),
   maxDuration: snapshots.reduce((maxDuration, snapshot) => Math.max(maxDuration, snapshot.duration), 0),
 }));
 
